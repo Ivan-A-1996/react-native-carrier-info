@@ -49,7 +49,13 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void mobileCountryCode(Promise promise) {
-        String networkOperator = mTelephonyManager.getNetworkOperator();
+        String networkOperator = null;
+        if (isAirplaneModeOn(getReactApplicationContext())) {
+            networkOperator = mTelephonyManager.getSimOperator();
+        }
+        else {
+            networkOperator = mTelephonyManager.getNetworkOperator();
+        }        
         if (networkOperator != null) {
             int mcc = Integer.parseInt(networkOperator.substring(0, 3));
             promise.resolve(mcc);
@@ -60,7 +66,13 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void mobileNetworkCode(Promise promise) {
-        String networkOperator = mTelephonyManager.getNetworkOperator();
+        String networkOperator = null;
+        if (isAirplaneModeOn(getReactApplicationContext())) {
+            networkOperator = mTelephonyManager.getSimOperator();
+        }
+        else {
+            networkOperator = mTelephonyManager.getNetworkOperator();
+        }        
         if (networkOperator != null) {
             int mnc = Integer.parseInt(networkOperator.substring(3));
             promise.resolve(mnc);
@@ -78,5 +90,16 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
         } else {
             promise.reject(E_NO_NETWORK_OPERATOR, "No mobile network operator");
         }
+    }
+    
+    /**
+     * Gets the state of Airplane Mode.
+     *
+     * @param context
+     * @return true if enabled.
+     */
+    private static boolean isAirplaneModeOn(Context context) {
+        return Settings.System.getInt(context.getContentResolver(),
+                Settings.System.AIRPLANE_MODE_ON, 0) != 0;
     }
 }
