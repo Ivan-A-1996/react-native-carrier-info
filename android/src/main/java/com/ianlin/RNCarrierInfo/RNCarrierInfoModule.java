@@ -2,6 +2,7 @@ package com.ianlin.RNCarrierInfo;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
+import android.provider.Settings;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
