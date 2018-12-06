@@ -2,6 +2,7 @@ package com.ianlin.RNCarrierInfo;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
+import android.provider.Settings;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -39,10 +40,20 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void isoCountryCode(Promise promise) {
-        String iso = mTelephonyManager.getNetworkCountryIso();
-        if (iso != null) {
-            promise.resolve(iso);
-        } else {
+
+        String iso = "";
+
+        try{
+            if(mTelephonyManager.getSimState() != TelephonyManager.SIM_STATE_ABSENT)
+                iso = mTelephonyManager.getSimCountryIso();
+            else
+                iso = mTelephonyManager.getNetworkCountryIso();
+            
+            if (iso != null) 
+                promise.resolve(iso);
+             else 
+                 promise.reject(E_NO_ISO_COUNTRY_CODE, "No iso country code");
+        }catch(Exception e){
             promise.reject(E_NO_ISO_COUNTRY_CODE, "No iso country code");
         }
     }
