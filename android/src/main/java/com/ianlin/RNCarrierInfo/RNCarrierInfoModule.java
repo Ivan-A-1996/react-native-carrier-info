@@ -67,7 +67,7 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
         else {
             networkOperator = mTelephonyManager.getNetworkOperator();
         }        
-        if (networkOperator != null) {
+        if (networkOperator != null && networkOperator.length() > 2) {
             int mcc = Integer.parseInt(networkOperator.substring(0, 3));
             promise.resolve(mcc);
         } else {
@@ -84,7 +84,7 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
         else {
             networkOperator = mTelephonyManager.getNetworkOperator();
         }        
-        if (networkOperator != null) {
+        if (networkOperator != null && networkOperator.length() > 2) {
             int mnc = Integer.parseInt(networkOperator.substring(3));
             promise.resolve(mnc);
         } else {
@@ -114,3 +114,4 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
                 Settings.System.AIRPLANE_MODE_ON, 0) != 0;
     }
 }
+
