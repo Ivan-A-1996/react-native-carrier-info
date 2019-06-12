@@ -60,34 +60,40 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void mobileCountryCode(Promise promise) {
-        String networkOperator = null;
-        if (isAirplaneModeOn(getReactApplicationContext())) {
-            networkOperator = mTelephonyManager.getSimOperator();
-        }
-        else {
-            networkOperator = mTelephonyManager.getNetworkOperator();
-        }        
-        if (networkOperator != null && networkOperator.length() > 2) {
-            int mcc = Integer.parseInt(networkOperator.substring(0, 3));
-            promise.resolve(mcc);
-        } else {
+        try {
+            String networkOperator = null;
+            if (isAirplaneModeOn(getReactApplicationContext())) {
+                networkOperator = mTelephonyManager.getSimOperator();
+            } else {
+                networkOperator = mTelephonyManager.getNetworkOperator();
+            }
+            if (networkOperator != null && networkOperator.length() > 2) {
+                int mcc = Integer.parseInt(networkOperator.substring(0, 3));
+                promise.resolve(mcc);
+            } else {
+                throw new Exception();
+            }
+        } catch(Exception e) {
             promise.reject(E_NO_MOBILE_COUNTRY_CODE, "No mobile country code");
         }
     }
 
     @ReactMethod
     public void mobileNetworkCode(Promise promise) {
-        String networkOperator = null;
-        if (isAirplaneModeOn(getReactApplicationContext())) {
-            networkOperator = mTelephonyManager.getSimOperator();
-        }
-        else {
-            networkOperator = mTelephonyManager.getNetworkOperator();
-        }        
-        if (networkOperator != null && networkOperator.length() > 2) {
-            int mnc = Integer.parseInt(networkOperator.substring(3));
-            promise.resolve(mnc);
-        } else {
+        try {
+            String networkOperator = null;
+            if (isAirplaneModeOn(getReactApplicationContext())) {
+                networkOperator = mTelephonyManager.getSimOperator();
+            } else {
+                networkOperator = mTelephonyManager.getNetworkOperator();
+            }
+            if (networkOperator != null && networkOperator.length() > 2) {
+                int mnc = Integer.parseInt(networkOperator.substring(3));
+                promise.resolve(mnc);
+            } else {
+                throw new Exception();
+            }
+        } catch(Exception e) {
             promise.reject(E_NO_MOBILE_NETWORK, "No mobile network code");
         }
     }
@@ -114,4 +120,3 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
                 Settings.System.AIRPLANE_MODE_ON, 0) != 0;
     }
 }
-
