@@ -30,8 +30,8 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void carrierName(Promise promise) {
-        String carrierName = mTelephonyManager.getNetworkOperatorName();
-        if (carrierName != null) {
+        String carrierName = mTelephonyManager.getSimOperatorName();
+        if (carrierName != null && !"".equals(carrierName)) {
             promise.resolve(carrierName);
         } else {
             promise.reject(E_NO_CARRIER_NAME, "No carrier name");
@@ -58,6 +58,7 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
         }
     }
 
+    // returns MCC (3 digits)
     @ReactMethod
     public void mobileCountryCode(Promise promise) {
         try {
@@ -78,6 +79,7 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
         }
     }
 
+    // returns MNC (2 or 3 digits)
     @ReactMethod
     public void mobileNetworkCode(Promise promise) {
         try {
@@ -98,12 +100,12 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
         }
     }
 
-    // return MCC + MNC, e.g. 46697
+    // return MCC + MNC (5 or 6 digits), e.g. 20601
     @ReactMethod
     public void mobileNetworkOperator(Promise promise) {
-        String operator = mTelephonyManager.getNetworkOperator();
-        if (operator != null) {
-            promise.resolve(operator);
+        String plmn = mTelephonyManager.getSimOperator();
+        if (plmn != null && !"".equals(plmn)) {
+            promise.resolve(plmn);
         } else {
             promise.reject(E_NO_NETWORK_OPERATOR, "No mobile network operator");
         }
