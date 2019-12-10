@@ -8,6 +8,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.Callback;
 
 public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
     private final static String TAG = RNCarrierInfoModule.class.getCanonicalName();
@@ -48,10 +49,10 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
                 iso = mTelephonyManager.getSimCountryIso();
             else
                 iso = mTelephonyManager.getNetworkCountryIso();
-            
-            if (iso != null) 
+
+            if (iso != null)
                 promise.resolve(iso);
-             else 
+             else
                  promise.reject(E_NO_ISO_COUNTRY_CODE, "No iso country code");
         }catch(Exception e){
             promise.reject(E_NO_ISO_COUNTRY_CODE, "No iso country code");
@@ -110,7 +111,13 @@ public class RNCarrierInfoModule extends ReactContextBaseJavaModule {
             promise.reject(E_NO_NETWORK_OPERATOR, "No mobile network operator");
         }
     }
-    
+
+    @ReactMethod
+    public void addCarrierChangeListener(Callback successCallback)
+    {
+        SimChangeReceiver.setCallback(successCallback);
+    }
+
     /**
      * Gets the state of Airplane Mode.
      *

@@ -1,13 +1,9 @@
 'use strict';
 
-import React from 'react';
-import {
-	NativeModules,
-	Platform,
-} from 'react-native';
-const _CarrierInfo = require('react-native').NativeModules.RNCarrierInfo;
+import {NativeModules, Platform} from "react-native";
+const _CarrierInfo = NativeModules.RNCarrierInfo;
 
-export default class CarrierInfo {
+export class CarrierInfo {
 	static async allowsVOIP() {
 		if (Platform.OS === 'android') return true;
 		return await _CarrierInfo.allowsVOIP();
@@ -31,5 +27,9 @@ export default class CarrierInfo {
 
 	static async mobileNetworkOperator() {
 		return await _CarrierInfo.mobileNetworkOperator();
+	}
+
+	static addCarrierChangeListener(callback) {
+		return _CarrierInfo.addCarrierChangeListener(callback);
 	}
 }

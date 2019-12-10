@@ -85,6 +85,16 @@ string mobileNetworkCode() - The mobile network code (MNC) for the user’s cell
 string mobileNetworkOperator() - return MCC + MNC, e.g 46697
 ```
 
+### addCarrierChangeListener
+
+```js
+void mobileNetworkOperator(function(mobileOperator))
+```
+
+- Conditions:
+    - Can not work on ios 12-.
+    - Android there no guarantees it works on any version nor on any manufacturer's devices.
+
 ## Getting Started (and running the demo project)
 
 ### iOS
@@ -98,6 +108,27 @@ string mobileNetworkOperator() - return MCC + MNC, e.g 46697
 7. Run your project (`Cmd+R`)
 
 ### Android
+
+- **AndroidManifest.xml**
+
+```gradle
+
+<!-- put this where your other permissions are: -->
+<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+<!-- and -->
+<application
+    android:name="a.b.c...."
+    ... >
+    <!-- put this somewhere into your application section: -->
+    <receiver android:name="a.b.c.SimChangedReceiver">
+        <intent-filter>
+            <action android:name="android.intent.action.SIM_STATE_CHANGED"/>
+        </intent-filter>
+    </receiver>
+</application>
+
+```
+
 
 - **app/build.gradle**
 

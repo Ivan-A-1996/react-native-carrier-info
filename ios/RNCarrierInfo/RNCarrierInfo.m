@@ -98,5 +98,26 @@ RCT_EXPORT_METHOD(mobileNetworkOperator:(RCTPromiseResolveBlock)resolve
     }
 }
 
+RCT_EXPORT_METHOD(addCarrierChangeListener:(RCTResponseSenderBlock)successCallback)
+{
+//  CTTelephonyNetworkInfo *nInfo = [[CTTelephonyNetworkInfo alloc] init];
+  CTTelephonyNetworkInfo *nInfo = [[CTTelephonyNetworkInfo alloc] init];
+
+  if (@available(iOS 12.0, *)) {
+    nInfo.serviceSubscriberCellularProvidersDidUpdateNotifier =  ^(NSString* carrier) {
+      RCTResponseSenderBlock callback = successCallback;
+       NSLog(@"--------------CHANGED----------------");
+      NSArray *events = [NSArray arrayWithObjects:carrier,nil];
+      callback(@[[NSNull null], events]);
+    };
+    NSArray *events = [NSArray arrayWithObjects:@"SUBSCRIBED",nil];
+    successCallback(@[[NSNull null], events]);
+  } else {
+    NSLog(@"--------------NOT_AVAILABLE_ON_YOUR_VESION----------------");
+    NSArray *events = [NSArray arrayWithObjects:@"NOT_AVAILABLE_ON_YOUR_VESION",nil];
+    successCallback(@[[NSNull null], events]);
+  }
+}
+
 @end
 
