@@ -23,7 +23,7 @@ public class SimChangeReceiver extends BroadcastReceiver {
 		String action = intent.getAction();
 		if (ACTION_SIM_STATE_CHANGED.equals(action)) {
 			Bundle extras = intent.getExtras();
-			String state = extras.getString(EXTRA_SIM_STATE);
+			String state = extras.getString(EXTRA_SIM_STATE);//TODO: add checks for nosim, Esim and cdma
 			Log.w(TAG, "SIM Action : " + action + " / State : " + state);
 			if (SIM_STATE_LOADED.equals(state) && _callback != null) {
                 _callback.invoke(mobileNetworkOperator(context));

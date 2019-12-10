@@ -104,7 +104,7 @@ RCT_EXPORT_METHOD(addCarrierChangeListener:(RCTResponseSenderBlock)successCallba
   CTTelephonyNetworkInfo *nInfo = [[CTTelephonyNetworkInfo alloc] init];
 
   if (@available(iOS 12.0, *)) {
-    nInfo.serviceSubscriberCellularProvidersDidUpdateNotifier =  ^(NSString* carrier) {
+    nInfo.serviceSubscriberCellularProvidersDidUpdateNotifier =  ^(NSString* carrier) { //TODO: add checks for nosim, Esim and cdma
       RCTResponseSenderBlock callback = successCallback;
        NSLog(@"--------------CHANGED----------------");
       NSArray *events = [NSArray arrayWithObjects:carrier,nil];

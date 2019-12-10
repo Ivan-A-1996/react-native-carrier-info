@@ -116,15 +116,15 @@ void mobileNetworkOperator(function(mobileOperator))
 <!-- put this where your other permissions are: -->
 <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 <!-- and -->
-<application
-    android:name="a.b.c...."
-    ... >
-    <!-- put this somewhere into your application section: -->
-    <receiver android:name="a.b.c.SimChangedReceiver">
+<application ... >
+    ...
+    <receiver android:name="com.ianlin.RNCarrierInfo.SimChangeReceiver">
         <intent-filter>
             <action android:name="android.intent.action.SIM_STATE_CHANGED"/>
         </intent-filter>
     </receiver>
+    <activity
+    ...
 </application>
 
 ```
